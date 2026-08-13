@@ -116,19 +116,31 @@ The 70/15/15 stratified split is correct. Importantly, the Action Needed field w
 | :--- | :--- | :--- | :--- |
 | **BanglaBERT** | 0.9323 | 0.9347 | 0.9882 |
 | **SCORE-BN** | 0.9183 | 0.9218 | 0.9872 |
-| Tuned Linear SVM | 0.9170 | 0.9197 | Not saved |
+| Tuned Linear SVM | 0.9170 | 0.9197 | 0.9841 |
 | Linear SVM | 0.9157 | 0.9186 | 0.9841 |
 | CNN | 0.9157 | 0.9186 | 0.9870 |
 | BiGRU | 0.9029 | 0.9060 | 0.9834 |
-| Logistic Regression | 0.9017 | 0.9049 | Missing in final table |
+| Logistic Regression | 0.9017 | 0.9049 | 0.9841 |
 | BiLSTM | 0.9017 | 0.9045 | 0.9779 |
 | XGBoost | 0.8991 | 0.9023 | 0.9799 |
 | Random Forest | 0.8966 | 0.9003 | 0.9810 |
-| Tuned XGBoost | 0.8902 | 0.8935 | Not saved |
+| Tuned XGBoost | 0.8902 | 0.8935 | 0.9799 |
 | Multinomial NB | 0.8838 | 0.8870 | 0.9808 |
 
 ## Literature Review & Gap Analysis
-A six-year literature review (2021–2026) revealed that while healthcare text classification, medical triage, Bangla NLP, and transliteration robustness have been studied individually, no indexed paper combines all of the following:
+A six-year literature review (2021–2026) revealed that while healthcare text classification, medical triage, Bangla NLP, and transliteration robustness have been studied individually, no single approach covers all requirements.
+
+| Year | Focus Area & Key Studies | Identified Research Gap |
+| :--- | :--- | :--- |
+| **2021** | Neural NLP for EHRs (Li et al., 2021) | Low-resource languages, informal consumer language, and robustness across writing styles remained underexplored. |
+| **2022** | Selective/reliable prediction (Nam et al., 2022; Varshney et al., 2022) | Reliability under language and script variation was not addressed for Bangla healthcare queries. |
+| **2023** | Bangla consumer healthcare NLP (Khan et al., 2023; Ruma et al., 2023) | No ordered severity-classification framework for real-world Bangla healthcare queries. |
+| **2024** | Free-text triage & transliteration (Chang et al., 2024; Porto et al., 2024; Fahim et al., 2024) | Healthcare classification research and Bangla transliteration research remained disconnected. |
+| **2025** | Transformers, code-mixing & robustness (Balaban et al., 2025; Haider et al., 2025) | Existing models do not explicitly force equivalent native and Romanized queries to preserve the same prediction. |
+| **2026** | Severity datasets & risk-aware triage (Dataset record, 2026; CRS-Triage, 2026) | Real-world Bangla severity classification has not been systematically studied for prediction consistency across native Bangla, Romanized Bangla and Bangla-English code-mixing. |
+
+### Final Consolidated Research Gap
+I found no indexed 2021–August 2026 paper that combines all of the following:
 
 * Real-world Bangla social-media healthcare queries
 * Ordered four-level severity classification
@@ -137,4 +149,4 @@ A six-year literature review (2021–2026) revealed that while healthcare text c
 * Asymmetric penalisation of under-prioritisation
 * Cross-script robustness evaluation
 
-This is the exact gap the SCORE-BN project addresses.
+This exact methodological combination is the gap the **SCORE-BN** project addresses.
