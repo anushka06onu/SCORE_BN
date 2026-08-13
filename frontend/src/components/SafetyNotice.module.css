@@ -1,0 +1,32 @@
+.noticeContainer {
+  display: flex;
+  gap: 1rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  align-items: flex-start;
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+
+.icon {
+  color: var(--cat-emergency);
+}
+
+.title {
+  color: #fca5a5;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  line-height: 1.5;
+}

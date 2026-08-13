@@ -1,0 +1,124 @@
+.cardContainer {
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.severityBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  color: white;
+}
+
+/* Dynamic Colors */
+.general-query { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+.routine { background: linear-gradient(135deg, #059669, #10b981); }
+.urgent { background: linear-gradient(135deg, #d97706, #f59e0b); }
+.emergency { background: linear-gradient(135deg, #dc2626, #ef4444); }
+
+.severityLabel span {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.severityLabel h2 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0;
+}
+
+.confidenceLabel {
+  text-align: right;
+}
+
+.confidenceLabel span {
+  display: block;
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.confidenceValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.warningBox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #451a03;
+  color: #fde68a;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.contentArea {
+  padding: 1.5rem;
+}
+
+.chartTitle {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.metaInfo {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metaItem strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.explanationSection {
+  margin-top: 1.5rem;
+}
+
+.explanationToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.explanationToggle:hover {
+  background-color: var(--bg-secondary);
+}
+
+.explanationContent {
+  padding: 1rem;
+  background-color: rgba(0,0,0,0.2);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}

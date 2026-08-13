@@ -1,0 +1,86 @@
+.resultsContainer {
+  padding: 2rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.description {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 800px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th, .table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.table th {
+  background-color: rgba(255,255,255,0.05);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.numberCol {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.bestRow {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.proposedRow {
+  background-color: rgba(16, 185, 129, 0.05);
+}
+
+.badge {
+  display: inline-block;
+  background-color: var(--accent-primary);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 12px;
+  margin-left: 0.75rem;
+  vertical-align: middle;
+}
+
+.badgeProposed {
+  display: inline-block;
+  background-color: var(--cat-routine);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 12px;
+  margin-left: 0.75rem;
+  vertical-align: middle;
+}
+
+.disclaimer {
+  padding: 1rem;
+  background-color: rgba(255,255,255,0.05);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.disclaimer p {
+  margin: 0;
+}
