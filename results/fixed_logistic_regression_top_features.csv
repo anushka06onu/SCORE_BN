@@ -1,0 +1,31 @@
+﻿class_id,class_name,rank,feature,coefficient
+0,General Query,1,word__জন,2.1395
+0,General Query,2,char__কি ,2.0492
+0,General Query,3,char__ কি ,1.9529
+0,General Query,4,char__ কি,1.6747
+0,General Query,5,word__তথ,1.5464
+0,General Query,6,word__ওয,1.3826
+0,General Query,7,word__এট,1.3383
+0,General Query,8,word__উপ,1.2264
+0,General Query,9,word__রণ,1.2095
+0,General Query,10,char__ কেন,1.138
+0,General Query,11,word__হব,1.1303
+0,General Query,12,char__ কী,1.1136
+0,General Query,13,word__সম,1.0996
+0,General Query,14,word__নত,1.0695
+0,General Query,15,char__ কেন ,1.0687
+0,General Query,16,word__এট হচ,1.0508
+0,General Query,17,word__পদ,1.0354
+0,General Query,18,char__কেন,1.0314
+0,General Query,19,word__যবহ,1.0224
+0,General Query,20,char__কেন ,1.013
+1,Routine,1,word__লক,2.531
+1,Routine,2,word__একট,2.2888
+1,Routine,3,char__লাগে,1.7298
+1,Routine,4,char__ লাগে,1.7298
+1,Routine,5,char__াগে,1.6187
+1,Routine,6,word__সমস হচ,1.4238
+1,Routine,7,char__ালকা ,1.1736
+1,Routine,8,char__ালকা,1.1736
+1,Routine,9,char__হালকা,1.1736
+1,Routine,10,char__হালক,1.1736

@@ -1,0 +1,9 @@
+﻿Feature Type,Used With,Justification
+Bag-of-Words,Classical baseline analysis,Simple lexical baseline
+Word TF-IDF,"NB, LR, SVM, RF, XGBoost",Captures informative words and n-grams
+Character TF-IDF,"LR, SVM, RF, XGBoost",Robust to spelling and word variation
+Trainable embeddings,"CNN, BiLSTM, BiGRU",Learns task-specific representations
+Transformer embeddings,BanglaBERT and SCORE-BN,Provides contextual language representations
+Length features,EDA/domain analysis,Measures query complexity
+Script features,Bangla/Latin character analysis,Measures script and code-mixing variation
+Domain-related patterns,"Digits, question marks and text patterns",Captures query-specific structural signals

@@ -1,0 +1,14 @@
+﻿Operation,Implementation
+Missing-value handling,Rows with missing text/labels removed
+Unicode normalization,NFKC normalization
+URL normalization,URLs replaced with URL token
+User-mention normalization,Mentions replaced with USER token
+Whitespace normalization,Repeated whitespace collapsed
+Exact duplicate removal,Duplicate text removed before split
+Normalized duplicate removal,Normalized duplicates removed before split
+Tokenization,Regex and model-specific tokenization
+Stopword analysis,Bangla stopword frequency analysed
+Stemming/Lemmatization,Not applied to transformer input; subword tokenization retained
+Class imbalance handling,Stratification and class-weighted classical models
+Data splitting,"70% train, 15% validation, 15% test"
+Leakage prevention,Action Needed excluded; transforms fitted on training data

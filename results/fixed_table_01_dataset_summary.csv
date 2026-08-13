@@ -1,0 +1,15 @@
+﻿Property,Value
+Dataset name,Bangla Healthcare Severity Dataset
+Domain,Healthcare NLP
+Task,Ordinal multiclass text classification
+Language,Bangla
+Data source,Public Facebook and YouTube discussions
+Original samples,5263
+Clean samples used,5215
+Input feature,Text
+Target,Categories
+Excluded leakage column,Action Needed
+Number of classes,4
+Train samples,3650
+Validation samples,782
+Test samples,783

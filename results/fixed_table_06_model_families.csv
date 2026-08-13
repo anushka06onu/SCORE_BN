@@ -1,0 +1,11 @@
+﻿Model,Family,Feature Representation
+Multinomial Naive Bayes,Probabilistic,TF-IDF
+Logistic Regression,Linear,Word + character TF-IDF
+Linear SVM,Margin-based,Word + character TF-IDF
+Random Forest,Tree ensemble,Word + character TF-IDF
+XGBoost,Boosted ensemble,Word + character TF-IDF
+Text-CNN,Convolutional neural network,Trainable token embeddings
+BiLSTM,Recurrent neural network,Trainable token embeddings
+BiGRU,Recurrent neural network,Trainable token embeddings
+BanglaBERT,Transformer,Contextual subword embeddings
+SCORE-BN,Proposed transformer framework,Original + Romanized paired contextual embeddings

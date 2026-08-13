@@ -1,0 +1,4 @@
+﻿split,General Query,Routine,Urgent,Emergency,Total
+Test,175,189,217,202,783
+Train,813,882,1014,941,3650
+Validation,174,189,217,202,782

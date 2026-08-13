@@ -1,0 +1,12 @@
+﻿Operation,Implementation
+Missing Values,Missing text and target rows removed
+Duplicate Removal,Exact and normalized duplicates removed
+Unicode Normalization,NFKC normalization
+URL Normalization,URLs replaced with URL token
+Mention Normalization,Mentions replaced with USER token
+Tokenization,Regex and model-specific tokenization
+Stopword Analysis,Bangla stopword frequency analysed
+TF-IDF Encoding,Word and character TF-IDF
+Transformer Tokenization,BanglaBERT subword tokenizer
+Data Splitting,"70% train, 15% validation, 15% test"
+Leakage Prevention,Action Needed excluded from input

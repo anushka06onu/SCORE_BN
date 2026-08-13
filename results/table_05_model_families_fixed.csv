@@ -1,0 +1,11 @@
+﻿Model,Family
+Multinomial Naive Bayes,Probabilistic
+Logistic Regression,Linear
+Linear SVM,Margin-based
+Random Forest,Tree Ensemble
+XGBoost,Boosted Ensemble
+Text-CNN,Convolutional Neural Network
+BiLSTM,Recurrent Neural Network
+BiGRU,Recurrent Neural Network
+BanglaBERT,Transformer
+SCORE-BN,Proposed Transformer Framework
