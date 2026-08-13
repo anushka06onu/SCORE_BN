@@ -100,7 +100,7 @@ if torch.cuda.is_available():
 # ------------------------------------------------------------
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 assert BACKUP_DIR.exists(), (

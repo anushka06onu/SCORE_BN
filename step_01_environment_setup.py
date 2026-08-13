@@ -21,7 +21,7 @@ np.random.seed(SEED)
 warnings.filterwarnings("ignore")
 sns.set_theme(style="whitegrid")
 
-PROJECT_DIR = Path('/content/score_bn')
+PROJECT_DIR = Path('/Users/fatehahossainanushka/SCORE_BN')
 for folder in ['data/raw','data/processed','data/splits','models','results','figures','app']:
     (PROJECT_DIR/folder).mkdir(parents=True, exist_ok=True)
 print('Project folder:', PROJECT_DIR)

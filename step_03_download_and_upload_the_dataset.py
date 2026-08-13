@@ -5,8 +5,8 @@ Official page: **https://data.mendeley.com/datasets/37z8kgx79m/1**
 Download the dataset from that page. Then run the next cell and upload the downloaded `.csv`, `.xlsx`, or `.zip` file.
 """
 
-from google.colab import files
-uploaded = files.upload()
+# from google.colab import files
+# uploaded = files.upload()
 
 raw_dir = PROJECT_DIR/'data/raw'
 for filename, content in uploaded.items():
@@ -20,13 +20,13 @@ print('Uploaded files:')
 for p in raw_dir.rglob('*'):
     if p.is_file(): print('-', p)
 
-from google.colab import drive
+# from google.colab import drive
 from pathlib import Path
 
-drive.mount('/content/drive')
+# drive.mount('/content/drive')
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 print("Checkpoint folder exists:", BACKUP_DIR.exists())
@@ -47,7 +47,7 @@ from transformers import (
 )
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 CHECKPOINTS_DIR = (

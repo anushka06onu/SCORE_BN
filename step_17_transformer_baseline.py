@@ -603,7 +603,7 @@ print(FINAL_MODEL_DIR)
 from pathlib import Path
 
 CHECKPOINT_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 print("Files saved in Google Drive:")
@@ -624,7 +624,7 @@ import numpy as np
 import pandas as pd
 import torch
 
-from google.colab import drive
+# from google.colab import drive
 
 from datasets import Dataset
 
@@ -644,7 +644,7 @@ from sklearn.metrics import (
 )
 
 # Mount Google Drive
-drive.mount('/content/drive')
+# drive.mount('/content/drive')
 
 # Reproducibility
 SEED = 42
@@ -666,7 +666,7 @@ print(
 
 # Google Drive folders
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 BERT_SAVE_DIR = (

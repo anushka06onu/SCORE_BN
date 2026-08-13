@@ -18,12 +18,12 @@ for i in range(4):
 plt.plot([0,1],[0,1],'--',color='gray'); plt.title('One-vs-rest ROC curves'); plt.show()
 
 import joblib
-from google.colab import drive
+# from google.colab import drive
 from pathlib import Path
 
-drive.mount('/content/drive')
+# drive.mount('/content/drive')
 
-BACKUP_DIR = Path('/content/drive/MyDrive/SCORE_BN_Checkpoints')
+BACKUP_DIR = Path('/Users/fatehahossainanushka/SCORE_BN/checkpoints')
 BACKUP_DIR.mkdir(parents=True, exist_ok=True)
 
 # Save TF-IDF feature extractor

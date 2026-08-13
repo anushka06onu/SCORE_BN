@@ -18,7 +18,7 @@ from pathlib import Path
 # ------------------------------------------------------------
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 APP_DIR = (
@@ -1253,7 +1253,7 @@ import matplotlib.pyplot as plt
 # ------------------------------------------------------------
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 if not BACKUP_DIR.exists():
@@ -1359,7 +1359,7 @@ allowed_extensions = {
 }
 
 temporary_search_roots = [
-    Path('/content/score_bn'),
+    Path('/Users/fatehahossainanushka/SCORE_BN'),
     Path('/content/results'),
     Path('/content/figures')
 ]
@@ -2274,7 +2274,7 @@ sns.set_theme(style='whitegrid')
 # ------------------------------------------------------------
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 REPORT_ASSET_DIR = (
@@ -5206,7 +5206,7 @@ assert (
 # ============================================================
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 FONT_TEST_DIR = (
@@ -5277,7 +5277,7 @@ import plotly.graph_objects as go
 from pathlib import Path
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 XAI_DIR = (
@@ -5726,7 +5726,7 @@ import plotly.express as px
 # ------------------------------------------------------------
 
 BACKUP_DIR = Path(
-    '/content/drive/MyDrive/SCORE_BN_Checkpoints'
+    '/Users/fatehahossainanushka/SCORE_BN/checkpoints'
 )
 
 FIXED_REPORT_DIR = (
@@ -7432,13 +7432,13 @@ from sklearn.metrics import (
     roc_auc_score
 )
 
-from google.colab import drive
+# from google.colab import drive
 
 warnings.filterwarnings("ignore")
 
 # Mount Google Drive if it is not already mounted
 if not Path("/content/drive/MyDrive").exists():
-    drive.mount("/content/drive")
+#     drive.mount("/content/drive")
 
 SEED = 42
 
