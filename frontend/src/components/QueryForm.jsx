@@ -27,6 +27,10 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim().length >= 3 && !isLoading) {
+      if (["BanglaBERT", "SCORE-BN", "CNN", "BiGRU", "BiLSTM"].includes(selectedModel)) {
+        alert("⚠️ Cloud Memory Limit:\n\nDeep Learning models (like BanglaBERT) require over 16GB of RAM and have been temporarily disabled on this free cloud server.\n\nPlease select a Classical Model (e.g., Linear SVM or XGBoost) from the dropdown to test the live API!");
+        return;
+      }
       onAnalyze(query, selectedModel);
     }
   };
@@ -47,16 +51,21 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
               id="model-select" 
               value={selectedModel} 
               onChange={(e) => setSelectedModel(e.target.value)}
-              className={styles.modelSelect}
+              className={styles.select}
               disabled={isLoading}
             >
-              <option value="Linear SVM">Linear SVM (Fast & Accurate)</option>
+              <option value="BanglaBERT">BanglaBERT — Best overall test performance (Macro-F1: 0.9347)</option>
+              <option value="SCORE-BN">SCORE-BN — Proposed robustness-oriented model</option>
+              <option value="Tuned Linear SVM">Tuned Linear SVM</option>
+              <option value="Linear SVM">Linear SVM</option>
+              <option value="CNN">CNN (Deep Learning)</option>
+              <option value="BiGRU">BiGRU (Deep Learning)</option>
+              <option value="Logistic Regression">Logistic Regression</option>
+              <option value="BiLSTM">BiLSTM (Deep Learning)</option>
               <option value="XGBoost">XGBoost</option>
               <option value="Random Forest">Random Forest</option>
-              <option value="Multinomial NB">Multinomial Naive Bayes</option>
-              <option value="Tuned Linear SVM">Tuned Linear SVM</option>
               <option value="Tuned XGBoost">Tuned XGBoost</option>
-              <option value="Logistic Regression">Logistic Regression</option>
+              <option value="Multinomial NB">Multinomial NB</option>
             </select>
           </div>
         </div>
