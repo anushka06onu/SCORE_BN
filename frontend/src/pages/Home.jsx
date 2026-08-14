@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Activity, ShieldCheck, Database, Layers, BarChart3, Users, Target, ChevronDown } from 'lucide-react';
+import { Activity, ShieldCheck, Database, Layers, BarChart3, Users, Target, ChevronDown, ChevronUp } from 'lucide-react';
 import styles from './Home.module.css';
+
+const FAQItem = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className={`glass-panel ${styles.faqCard}`} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }} onClick={() => setIsOpen(!isOpen)}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h4 style={{ margin: 0 }}>{question}</h4>
+        {isOpen ? <ChevronUp size={20} color="var(--text-secondary)" /> : <ChevronDown size={20} color="var(--text-secondary)" />}
+      </div>
+      {isOpen && (
+        <p style={{ marginTop: '1rem' }} className="animate-fade-in">{answer}</p>
+      )}
+    </div>
+  );
+};
 
 const Home = () => {
   return (
@@ -76,23 +92,23 @@ const Home = () => {
       {/* FAQ Section */}
       <section className={styles.faqSection}>
         <h2 className={styles.sectionTitle}>Frequently Asked Questions</h2>
-        <div className={styles.faqGrid}>
-          <div className={`glass-panel ${styles.faqCard}`}>
-            <h4>What is SCORE-BN?</h4>
-            <p>SCORE-BN is an experimental natural language processing model designed to classify Bangla healthcare queries into four severity levels: General, Routine, Urgent, and Emergency.</p>
-          </div>
-          <div className={`glass-panel ${styles.faqCard}`}>
-            <h4>Is this a medical diagnosis tool?</h4>
-            <p>No. This is strictly a research demonstration of NLP capabilities. It must not be used for actual medical triaging, diagnosis, or treatment.</p>
-          </div>
-          <div className={`glass-panel ${styles.faqCard}`}>
-            <h4>What models are supported?</h4>
-            <p>The system supports a variety of models including Transformers (BanglaBERT, SCORE-BN) and classical machine learning models (SVM, XGBoost, Random Forest, etc.).</p>
-          </div>
-          <div className={`glass-panel ${styles.faqCard}`}>
-            <h4>How does the Explainable AI work?</h4>
-            <p>We use LIME (Local Interpretable Model-Agnostic Explanations) to highlight the specific words in a query that most influenced the model's severity prediction.</p>
-          </div>
+        <div className={styles.faqGrid} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '800px', margin: '0 auto' }}>
+          <FAQItem 
+            question="What is SCORE-BN?" 
+            answer="SCORE-BN is an experimental natural language processing model designed to classify Bangla healthcare queries into four severity levels: General, Routine, Urgent, and Emergency." 
+          />
+          <FAQItem 
+            question="Is this a medical diagnosis tool?" 
+            answer="No. This is strictly a research demonstration of NLP capabilities. It must not be used for actual medical triaging, diagnosis, or treatment." 
+          />
+          <FAQItem 
+            question="What models are supported?" 
+            answer="The system supports a variety of models including Transformers (BanglaBERT, SCORE-BN) and classical machine learning models (SVM, XGBoost, Random Forest, etc.)." 
+          />
+          <FAQItem 
+            question="How does the Explainable AI work?" 
+            answer="We use LIME (Local Interpretable Model-Agnostic Explanations) to highlight the specific words in a query that most influenced the model's severity prediction, and generate a natural language summary explaining its logic." 
+          />
         </div>
       </section>
 

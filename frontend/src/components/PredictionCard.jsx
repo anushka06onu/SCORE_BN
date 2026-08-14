@@ -61,6 +61,29 @@ const PredictionCard = ({ result }) => {
     }
   };
 
+  const generateExplanationText = (expData, pClass) => {
+    if (!expData || expData.length === 0) return null;
+    
+    // Sort by absolute weight
+    const sorted = [...expData].sort((a, b) => Math.abs(b.weight) - Math.abs(a.weight));
+    const topPositive = sorted.filter(item => item.weight > 0).slice(0, 3);
+    const topNegative = sorted.filter(item => item.weight < 0).slice(0, 2);
+    
+    if (topPositive.length === 0) {
+      return `The model classified this as ${pClass}, but could not identify strong contributing words.`;
+    }
+    
+    const posWordsStr = topPositive.map(w => `'${w.word}'`).join(' and ');
+    let text = `The AI classified your query as **${pClass}** primarily because the presence of the word${topPositive.length > 1 ? 's' : ''} **${posWordsStr}** strongly indicates this severity level.`;
+    
+    if (topNegative.length > 0) {
+      const negWordsStr = topNegative.map(w => `'${w.word}'`).join(' and ');
+      text += ` Conversely, the word${topNegative.length > 1 ? 's' : ''} **${negWordsStr}** slightly pulled the prediction away from this category, but were outweighed by the positive indicators.`;
+    }
+    
+    return text;
+  };
+
   return (
     <div className={`glass-panel animate-fade-in ${styles.cardContainer}`}>
       
@@ -122,7 +145,11 @@ const PredictionCard = ({ result }) => {
                 </div>
               ) : explanation ? (
                 <div>
-                  <p style={{ marginBottom: '1rem' }}>
+                  <div className={styles.limeDescription} style={{ marginBottom: '1.5rem', backgroundColor: 'rgba(59, 130, 246, 0.05)', padding: '1rem', borderRadius: '0.5rem', borderLeft: '3px solid var(--accent-primary)' }}>
+                    <p dangerouslySetInnerHTML={{ __html: generateExplanationText(explanation, predicted_class).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}></p>
+                  </div>
+                  
+                  <p style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                     <strong>Word contributions towards "{predicted_class}":</strong>
                   </p>
                   <div className={styles.tagCloud}>
