@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from lime.lime_text import LimeTextExplainer
+import os
 
 warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 
@@ -25,8 +26,11 @@ app.add_middleware(
 device = torch.device("cpu")
 CLASS_NAMES = ["General Query", "Routine", "Urgent", "Emergency"]
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MODELS_DIR = os.path.join(BASE_DIR, "models")
+MODEL_DIR = os.path.join(MODELS_DIR, "banglabert_best")
+
 # Deep Learning Models
-MODEL_DIR = "../models/banglabert_best"
 transformer_model = None
 tokenizer = None
 
@@ -37,16 +41,23 @@ classical_models = {}
 @app.on_event("startup")
 def load_models():
     global transformer_model, tokenizer, tfidf_vectorizer, classical_models
+    
+    # 1. Try to load Transformer (May be missing on cloud due to GitHub 100MB limits)
     try:
         print(f"Loading transformer model from {MODEL_DIR} onto {device}...", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
         transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
         transformer_model.to(device)
         transformer_model.eval()
-        
+        print("Transformer loaded successfully.", flush=True)
+    except Exception as e:
+        print(f"Skipping transformer model (not found or error): {e}", flush=True)
+
+    # 2. Try to load Classical Models (Should always be present)
+    try:
         print("Loading classical models and TF-IDF...", flush=True)
-        tfidf_vectorizer = joblib.load("../models/tfidf_features.joblib")
-        classical_dict = joblib.load("../models/classical_models.joblib")
+        tfidf_vectorizer = joblib.load(os.path.join(MODELS_DIR, "tfidf_features.joblib"))
+        classical_dict = joblib.load(os.path.join(MODELS_DIR, "classical_models.joblib"))
         
         classical_models['Linear SVM'] = classical_dict.get('LinearSVM')
         classical_models['Logistic Regression'] = classical_dict.get('LogisticRegression')
@@ -54,12 +65,12 @@ def load_models():
         classical_models['Random Forest'] = classical_dict.get('RandomForest')
         classical_models['XGBoost'] = classical_dict.get('XGBoost')
         
-        classical_models['Tuned Linear SVM'] = joblib.load("../models/tuned_linear_svm.joblib")
-        classical_models['Tuned XGBoost'] = joblib.load("../models/tuned_xgboost.joblib")
+        classical_models['Tuned Linear SVM'] = joblib.load(os.path.join(MODELS_DIR, "tuned_linear_svm.joblib"))
+        classical_models['Tuned XGBoost'] = joblib.load(os.path.join(MODELS_DIR, "tuned_xgboost.joblib"))
         
-        print("All models loaded successfully.", flush=True)
+        print("Classical models loaded successfully.", flush=True)
     except Exception as e:
-        print(f"Error loading models: {e}", flush=True)
+        print(f"Error loading classical models: {e}", flush=True)
 
 class PredictRequest(BaseModel):
     text: str
