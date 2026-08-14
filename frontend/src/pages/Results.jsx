@@ -5,8 +5,16 @@ const Results = () => {
   const modelResults = [
     { name: 'BanglaBERT', accuracy: '0.9323', f1: '0.9347', auc: '0.9882', isBest: true },
     { name: 'SCORE-BN', accuracy: '0.9183', f1: '0.9218', auc: '0.9872', isProposed: true },
-    { name: 'Tuned Linear SVM', accuracy: '0.9170', f1: '0.9197', auc: '0.9841' },
+    { name: 'Tuned Linear SVM', accuracy: '0.9170', f1: '0.9197', auc: 'N/A' },
+    { name: 'Linear SVM', accuracy: '0.9157', f1: '0.9186', auc: '0.9841' },
     { name: 'CNN', accuracy: '0.9157', f1: '0.9186', auc: '0.9870' },
+    { name: 'BiGRU', accuracy: '0.9029', f1: '0.9060', auc: '0.9834' },
+    { name: 'Logistic Regression', accuracy: '0.9017', f1: '0.9049', auc: 'N/A' },
+    { name: 'BiLSTM', accuracy: '0.9017', f1: '0.9045', auc: '0.9779' },
+    { name: 'XGBoost', accuracy: '0.8991', f1: '0.9023', auc: '0.9799' },
+    { name: 'Random Forest', accuracy: '0.8966', f1: '0.9003', auc: '0.9810' },
+    { name: 'Tuned XGBoost', accuracy: '0.8902', f1: '0.8935', auc: 'N/A' },
+    { name: 'Multinomial NB', accuracy: '0.8838', f1: '0.8870', auc: '0.9808' },
   ];
 
   return (

@@ -140,9 +140,15 @@ const PredictionCard = ({ result }) => {
                       </span>
                     ))}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '1rem' }}>
-                    * LIME (Local Interpretable Model-agnostic Explanations) is an approximate method to interpret model predictions. Green words increased the probability of this class, red words decreased it.
-                  </p>
+                  <div className={styles.limeDescription}>
+                    <p>
+                      This section utilizes <strong>LIME (Local Interpretable Model-Agnostic Explanations)</strong> to demonstrate the transparency of the model. 
+                      The highlighted words show which parts of the query most heavily influenced the prediction.
+                    </p>
+                    <p style={{ marginTop: '0.5rem', fontSize: '0.85rem' }}>
+                      <span style={{ color: '#10b981', fontWeight: 600 }}>Green</span> words increased the probability of this class, while <span style={{ color: '#ef4444', fontWeight: 600 }}>Red</span> words decreased it.
+                    </p>
+                  </div>
                 </div>
               ) : (
                 <p>Explanation unavailable.</p>

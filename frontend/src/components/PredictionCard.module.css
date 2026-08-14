@@ -113,12 +113,57 @@
 }
 
 .explanationContent {
-  padding: 1rem;
-  background-color: rgba(0,0,0,0.2);
+  padding: 1.5rem;
+  background-color: var(--bg-secondary);
   border: 1px solid var(--glass-border);
   border-top: none;
   border-bottom-left-radius: var(--radius-sm);
   border-bottom-right-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.limeDescription {
+  background-color: var(--bg-tertiary);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  margin-top: 1.5rem;
+  border-left: 4px solid var(--accent-primary);
+}
+
+.limeDescription p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.wordTag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 500;
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  display: inline-block;
+  box-shadow: var(--shadow-sm);
+}
+
+.spinnerDark {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
