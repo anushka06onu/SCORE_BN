@@ -10,6 +10,15 @@ import warnings
 import torch
 import torch.nn.functional as F
 import numpy as np
+
+# Force transformers to recognize PyTorch
+os.environ["USE_TORCH"] = "1"
+import transformers
+try:
+    transformers.utils.import_utils._torch_available = True
+except AttributeError:
+    pass
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
