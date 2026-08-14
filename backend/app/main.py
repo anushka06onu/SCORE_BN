@@ -1,20 +1,20 @@
+import os
+import sys
+
+# Critical memory optimization for 512MB RAM limit
+os.environ["MALLOC_ARENA_MAX"] = "2"
+
 import time
 import joblib
 import warnings
+import torch
+import torch.nn.functional as F
+import numpy as np
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from lime.lime_text import LimeTextExplainer
-import os
-
-try:
-    import torch
-    import torch.nn.functional as F
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-    TRANSFORMERS_AVAILABLE = True
-except ImportError:
-    TRANSFORMERS_AVAILABLE = False
-
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 
@@ -29,12 +29,12 @@ app.add_middleware(
 )
 
 # Global variables
-device = torch.device("cpu") if TRANSFORMERS_AVAILABLE else "cpu"
+device = torch.device("cpu")
 CLASS_NAMES = ["General Query", "Routine", "Urgent", "Emergency"]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS_DIR = os.path.join(BASE_DIR, "models")
-MODEL_DIR = os.path.join(MODELS_DIR, "banglabert_best")
+MODEL_DIR = os.path.join(MODELS_DIR, "banglabert_sharded_fp16")
 
 # Deep Learning Models
 transformer_model = None
@@ -48,21 +48,17 @@ classical_models = {}
 def load_models():
     global transformer_model, tokenizer, tfidf_vectorizer, classical_models
     
-    # 1. Try to load Transformer (May be missing on cloud due to GitHub 100MB limits)
-    if TRANSFORMERS_AVAILABLE:
-        try:
-            print(f"Loading transformer model from {MODEL_DIR} onto {device}...", flush=True)
-            tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-            transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-            transformer_model.to(device)
-            transformer_model.eval()
-            print("Transformer loaded successfully.", flush=True)
-        except Exception as e:
-            print(f"Skipping transformer model (not found or error): {e}", flush=True)
-    else:
-        print("Skipping transformer model (libraries missing).", flush=True)
+    # 1. Load Transformer (FP16)
+    try:
+        print(f"Loading transformer model from {MODEL_DIR} onto CPU with FP16...", flush=True)
+        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+        transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR, torch_dtype=torch.float16)
+        transformer_model.eval()
+        print("Transformer loaded successfully.", flush=True)
+    except Exception as e:
+        print(f"Error loading transformer: {e}", flush=True)
 
-    # 2. Try to load Classical Models (Should always be present)
+    # 2. Try to load Classical Models
     try:
         print("Loading classical models and TF-IDF...", flush=True)
         tfidf_vectorizer = joblib.load(os.path.join(MODELS_DIR, "tfidf_features.joblib"))
@@ -91,16 +87,14 @@ class ExplainRequest(BaseModel):
 
 def predict_probabilities(texts, model_name="BanglaBERT"):
     if model_name in ["BanglaBERT", "SCORE-BN", "CNN", "BiGRU", "BiLSTM"]:
-        # Use Transformer
-        if not TRANSFORMERS_AVAILABLE or not transformer_model or not tokenizer:
+        if transformer_model is None or tokenizer is None:
             raise ValueError("Transformer model not loaded")
-        inputs = tokenizer(texts, padding=True, truncation=True, max_length=128, return_tensors="pt").to(device)
+        inputs = tokenizer(texts, padding=True, truncation=True, max_length=128, return_tensors="pt")
         with torch.no_grad():
             outputs = transformer_model(**inputs)
-            probs = F.softmax(outputs.logits, dim=-1).cpu().numpy()
+            probs = F.softmax(outputs.logits.float(), dim=-1).cpu().numpy()
         return probs
     else:
-        # Use Classical
         if not tfidf_vectorizer or model_name not in classical_models or classical_models[model_name] is None:
             raise ValueError(f"Model {model_name} not loaded")
         features = tfidf_vectorizer.transform(texts)
