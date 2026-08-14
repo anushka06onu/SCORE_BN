@@ -10,7 +10,7 @@ const exampleQueries = [
 
 const QueryForm = ({ onAnalyze, isLoading }) => {
   const [query, setQuery] = useState('');
-  const [selectedModel, setSelectedModel] = useState('BanglaBERT');
+  const [selectedModel, setSelectedModel] = useState('Linear SVM');
   const [isExampleOpen, setIsExampleOpen] = useState(false);
   
   const MAX_LENGTH = 1000;

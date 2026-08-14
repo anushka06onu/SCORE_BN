@@ -1,14 +1,20 @@
 import time
-import torch
-import torch.nn.functional as F
 import joblib
 import warnings
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from lime.lime_text import LimeTextExplainer
 import os
+
+try:
+    import torch
+    import torch.nn.functional as F
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    TRANSFORMERS_AVAILABLE = True
+except ImportError:
+    TRANSFORMERS_AVAILABLE = False
+
 
 warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 
@@ -23,7 +29,7 @@ app.add_middleware(
 )
 
 # Global variables
-device = torch.device("cpu")
+device = torch.device("cpu") if TRANSFORMERS_AVAILABLE else "cpu"
 CLASS_NAMES = ["General Query", "Routine", "Urgent", "Emergency"]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,15 +49,18 @@ def load_models():
     global transformer_model, tokenizer, tfidf_vectorizer, classical_models
     
     # 1. Try to load Transformer (May be missing on cloud due to GitHub 100MB limits)
-    try:
-        print(f"Loading transformer model from {MODEL_DIR} onto {device}...", flush=True)
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-        transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-        transformer_model.to(device)
-        transformer_model.eval()
-        print("Transformer loaded successfully.", flush=True)
-    except Exception as e:
-        print(f"Skipping transformer model (not found or error): {e}", flush=True)
+    if TRANSFORMERS_AVAILABLE:
+        try:
+            print(f"Loading transformer model from {MODEL_DIR} onto {device}...", flush=True)
+            tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
+            transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
+            transformer_model.to(device)
+            transformer_model.eval()
+            print("Transformer loaded successfully.", flush=True)
+        except Exception as e:
+            print(f"Skipping transformer model (not found or error): {e}", flush=True)
+    else:
+        print("Skipping transformer model (libraries missing).", flush=True)
 
     # 2. Try to load Classical Models (Should always be present)
     try:
@@ -83,7 +92,7 @@ class ExplainRequest(BaseModel):
 def predict_probabilities(texts, model_name="BanglaBERT"):
     if model_name in ["BanglaBERT", "SCORE-BN", "CNN", "BiGRU", "BiLSTM"]:
         # Use Transformer
-        if not transformer_model or not tokenizer:
+        if not TRANSFORMERS_AVAILABLE or not transformer_model or not tokenizer:
             raise ValueError("Transformer model not loaded")
         inputs = tokenizer(texts, padding=True, truncation=True, max_length=128, return_tensors="pt").to(device)
         with torch.no_grad():
