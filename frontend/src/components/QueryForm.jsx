@@ -27,6 +27,10 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim().length >= 3 && !isLoading) {
+      if (["BanglaBERT", "SCORE-BN", "CNN", "BiGRU", "BiLSTM"].includes(selectedModel)) {
+        alert("⚠️ Cloud Memory Limit:\n\nDeep Learning models (like BanglaBERT) require over 16GB of RAM and have been temporarily disabled on this free cloud server.\n\nPlease select a Classical Model (e.g., Linear SVM or XGBoost) from the dropdown to test the live API!");
+        return;
+      }
       onAnalyze(query, selectedModel);
     }
   };
