@@ -10,30 +10,12 @@ import warnings
 import torch
 import torch.nn.functional as F
 import numpy as np
-import sys
-import importlib.util
-
-# Brutal monkey patch: force find_spec to return a valid ModuleSpec for torch
-_original_find_spec = importlib.util.find_spec
-def patched_find_spec(name, package=None):
-    if name == "torch":
-        from importlib.machinery import ModuleSpec
-        return ModuleSpec(name, None)
-    return _original_find_spec(name, package)
-importlib.util.find_spec = patched_find_spec
-
-# Force transformers to recognize PyTorch
-import transformers.utils.import_utils
-transformers.utils.import_utils.is_torch_available = lambda: True
-transformers.utils.import_utils._torch_available = True
-os.environ["USE_TORCH"] = "1"
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from lime.lime_text import LimeTextExplainer
-from transformers import AutoTokenizer
-from transformers.models.auto.modeling_auto import AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 
@@ -66,28 +48,8 @@ classical_models = {}
 
 @app.on_event("startup")
 def load_models():
-    global transformer_model, tokenizer, tfidf_vectorizer, classical_models, transformer_error
+    global transformer_model, tokenizer, tfidf_vectorizer, classical_models
     
-    # Debug: Force error to inspect environment
-    import transformers
-    import sys
-    try:
-        transformers_torch_avail = transformers.utils.import_utils.is_torch_available()
-    except Exception as e:
-        transformers_torch_avail = f"Error: {e}"
-        
-    try:
-        import torch
-        torch_ver = torch.__version__
-        torch_path = torch.__file__
-    except Exception as e:
-        torch_ver = f"Error: {e}"
-        torch_path = "N/A"
-        
-    debug_msg = f"DEBUG_DUMP: is_torch_available={transformers_torch_avail} | torch_ver={torch_ver} | torch_path={torch_path} | sys.path={sys.path}"
-    transformer_error = debug_msg
-    print(debug_msg, flush=True)
-
     # 1. Load Transformer (FP32)
     try:
         print(f"Loading transformer model from {MODEL_DIR} onto CPU...", flush=True)
@@ -96,9 +58,6 @@ def load_models():
         transformer_model.eval()
         print("Transformer loaded successfully.", flush=True)
     except Exception as e:
-        transformer_error = debug_msg + "\\n\\n" + str(e)
-        import traceback
-        transformer_error += "\\n" + traceback.format_exc()
         print(f"Error loading transformer: {e}", flush=True)
 
     # 2. Try to load Classical Models
@@ -131,7 +90,7 @@ class ExplainRequest(BaseModel):
 def predict_probabilities(texts, model_name="BanglaBERT"):
     if model_name in ["BanglaBERT", "SCORE-BN", "CNN", "BiGRU", "BiLSTM"]:
         if transformer_model is None or tokenizer is None:
-            raise ValueError(f"Transformer model not loaded. Error was: {transformer_error}")
+            raise ValueError("Transformer model not loaded")
         inputs = tokenizer(texts, padding=True, truncation=True, max_length=128, return_tensors="pt")
         with torch.no_grad():
             outputs = transformer_model(**inputs)
