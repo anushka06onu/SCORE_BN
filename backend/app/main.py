@@ -50,9 +50,9 @@ def load_models():
     
     # 1. Load Transformer (FP16)
     try:
-        print(f"Loading transformer model from {MODEL_DIR} onto CPU with FP16...", flush=True)
+        print(f"Loading transformer model from {MODEL_DIR} onto CPU...", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-        transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR, torch_dtype=torch.float16)
+        transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
         transformer_model.eval()
         print("Transformer loaded successfully.", flush=True)
     except Exception as e:
