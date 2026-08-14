@@ -11,6 +11,7 @@ const exampleQueries = [
 const QueryForm = ({ onAnalyze, isLoading }) => {
   const [query, setQuery] = useState('');
   const [selectedModel, setSelectedModel] = useState('BanglaBERT');
+  const [isExampleOpen, setIsExampleOpen] = useState(false);
   
   const MAX_LENGTH = 1000;
   
@@ -20,6 +21,7 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
   
   const handleExampleClick = (example) => {
     setQuery(example);
+    setIsExampleOpen(false);
   };
   
   const handleSubmit = (e) => {
@@ -32,7 +34,7 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
   const isSubmitDisabled = query.trim().length < 3 || isLoading;
 
   return (
-    <div className={`glass-panel ${styles.formContainer}`}>
+    <div className={`glass-panel ${styles.formContainer}`} style={{ position: 'relative', zIndex: 50 }}>
       <form onSubmit={handleSubmit}>
         
         {/* Header & Model Selector */}
@@ -83,11 +85,16 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
         {/* Action Buttons */}
         <div className={styles.actions}>
           <div className={styles.exampleDropdown}>
-            <button type="button" className={`btn-secondary ${styles.iconBtn}`} title="Example Queries">
+            <button 
+              type="button" 
+              className={`btn-secondary ${styles.iconBtn}`} 
+              title="Example Queries"
+              onClick={() => setIsExampleOpen(!isExampleOpen)}
+            >
               <Lightbulb size={18} />
               <span>Examples</span>
             </button>
-            <div className={styles.dropdownContent}>
+            <div className={`${styles.dropdownContent} ${isExampleOpen ? styles.show : ''}`}>
               {exampleQueries.map((ex, idx) => (
                 <div 
                   key={idx} 
