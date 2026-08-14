@@ -39,6 +39,7 @@ MODEL_DIR = os.path.join(MODELS_DIR, "banglabert_sharded_fp16")
 # Deep Learning Models
 transformer_model = None
 tokenizer = None
+transformer_error = None
 
 # Classical Models
 tfidf_vectorizer = None
@@ -46,9 +47,9 @@ classical_models = {}
 
 @app.on_event("startup")
 def load_models():
-    global transformer_model, tokenizer, tfidf_vectorizer, classical_models
+    global transformer_model, tokenizer, tfidf_vectorizer, classical_models, transformer_error
     
-    # 1. Load Transformer (FP16)
+    # 1. Load Transformer (FP32)
     try:
         print(f"Loading transformer model from {MODEL_DIR} onto CPU...", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
@@ -56,6 +57,9 @@ def load_models():
         transformer_model.eval()
         print("Transformer loaded successfully.", flush=True)
     except Exception as e:
+        transformer_error = str(e)
+        import traceback
+        transformer_error += "\\n" + traceback.format_exc()
         print(f"Error loading transformer: {e}", flush=True)
 
     # 2. Try to load Classical Models
@@ -88,7 +92,7 @@ class ExplainRequest(BaseModel):
 def predict_probabilities(texts, model_name="BanglaBERT"):
     if model_name in ["BanglaBERT", "SCORE-BN", "CNN", "BiGRU", "BiLSTM"]:
         if transformer_model is None or tokenizer is None:
-            raise ValueError("Transformer model not loaded")
+            raise ValueError(f"Transformer model not loaded. Error was: {transformer_error}")
         inputs = tokenizer(texts, padding=True, truncation=True, max_length=128, return_tensors="pt")
         with torch.no_grad():
             outputs = transformer_model(**inputs)
