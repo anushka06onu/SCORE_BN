@@ -43,7 +43,6 @@ function App() {
               <div className="footer-col">
                 <h4>Contact Us</h4>
                 <p>For questions or research collaboration, please reach out to our team.</p>
-                <a href="mailto:contact@scorebn.dev" className="footer-email">contact@scorebn.dev</a>
               </div>
             </div>
             <div className="footer-bottom">

@@ -89,7 +89,14 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
             </button>
             <div className={styles.dropdownContent}>
               {exampleQueries.map((ex, idx) => (
-                <div key={idx} className={styles.dropdownItem} onClick={() => handleExampleClick(ex)}>
+                <div 
+                  key={idx} 
+                  className={styles.dropdownItem} 
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleExampleClick(ex);
+                  }}
+                >
                   {ex}
                 </div>
               ))}

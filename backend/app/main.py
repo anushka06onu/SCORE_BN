@@ -86,11 +86,17 @@ def predict_probabilities(texts, model_name="BanglaBERT"):
         features = tfidf_vectorizer.transform(texts)
         model_instance = classical_models[model_name]
         if hasattr(model_instance, "predict_proba"):
-            probs = model_instance.predict_proba(features)
+            try:
+                probs = model_instance.predict_proba(features)
+            except AttributeError:
+                # Fallback for models without predict_proba that throw an AttributeError (e.g. old LogisticRegression)
+                decision = model_instance.decision_function(features)
+                import numpy as np
+                exp_dec = np.exp(decision - np.max(decision, axis=1, keepdims=True))
+                probs = exp_dec / np.sum(exp_dec, axis=1, keepdims=True)
         else:
-            # Fallback for models without predict_proba (like strict SVC)
+            # Fallback for models strictly without predict_proba (like SVC)
             decision = model_instance.decision_function(features)
-            # Softmax approximation
             import numpy as np
             exp_dec = np.exp(decision - np.max(decision, axis=1, keepdims=True))
             probs = exp_dec / np.sum(exp_dec, axis=1, keepdims=True)
