@@ -10,20 +10,30 @@ import warnings
 import torch
 import torch.nn.functional as F
 import numpy as np
+import sys
+import importlib.util
+
+# Brutal monkey patch: force find_spec to return a valid ModuleSpec for torch
+_original_find_spec = importlib.util.find_spec
+def patched_find_spec(name, package=None):
+    if name == "torch":
+        from importlib.machinery import ModuleSpec
+        return ModuleSpec(name, None)
+    return _original_find_spec(name, package)
+importlib.util.find_spec = patched_find_spec
 
 # Force transformers to recognize PyTorch
+import transformers.utils.import_utils
+transformers.utils.import_utils.is_torch_available = lambda: True
+transformers.utils.import_utils._torch_available = True
 os.environ["USE_TORCH"] = "1"
-import transformers
-try:
-    transformers.utils.import_utils._torch_available = True
-except AttributeError:
-    pass
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from lime.lime_text import LimeTextExplainer
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer
+from transformers.models.auto.modeling_auto import AutoModelForSequenceClassification
 
 warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 
