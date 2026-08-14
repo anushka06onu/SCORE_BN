@@ -4,11 +4,14 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt && \
-    python -c "import transformers.utils.import_utils as iu; p = iu.__file__; code = open(p).read(); open(p, 'w').write(code + '\n\n_torch_available = True\n\ndef is_torch_available(): return True\n')"
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the backend code and models
 COPY . /app
+
+# Merge the split ONNX model parts and delete the parts
+RUN cat /app/models/banglabert_onnx_quantized/model_quantized.onnx.part_* > /app/models/banglabert_onnx_quantized/model_quantized.onnx && \
+    rm /app/models/banglabert_onnx_quantized/model_quantized.onnx.part_*
 
 # Expose port (Hugging Face Spaces uses 7860, Render uses whatever PORT env var)
 ENV PORT=7860

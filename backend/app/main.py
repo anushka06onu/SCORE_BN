@@ -15,7 +15,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from lime.lime_text import LimeTextExplainer
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer
+from optimum.onnxruntime import ORTModelForSequenceClassification
 
 warnings.filterwarnings('ignore', category=UserWarning, module='sklearn')
 
@@ -35,7 +36,7 @@ CLASS_NAMES = ["General Query", "Routine", "Urgent", "Emergency"]
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS_DIR = os.path.join(BASE_DIR, "models")
-MODEL_DIR = os.path.join(MODELS_DIR, "banglabert_sharded_fp16")
+MODEL_DIR = os.path.join(MODELS_DIR, "banglabert_onnx_quantized")
 
 # Deep Learning Models
 transformer_model = None
@@ -50,12 +51,11 @@ classical_models = {}
 def load_models():
     global transformer_model, tokenizer, tfidf_vectorizer, classical_models
     
-    # 1. Load Transformer (FP32)
+    # 1. Load Transformer (ONNX INT8)
     try:
         print(f"Loading transformer model from {MODEL_DIR} onto CPU...", flush=True)
         tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
-        transformer_model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
-        transformer_model.eval()
+        transformer_model = ORTModelForSequenceClassification.from_pretrained(MODEL_DIR, file_name="model_quantized.onnx")
         print("Transformer loaded successfully.", flush=True)
     except Exception as e:
         print(f"Error loading transformer: {e}", flush=True)

@@ -7,4 +7,6 @@ joblib==1.5.3
 pydantic==2.13.4
 torch==2.3.0+cpu
 transformers==5.15.0
+optimum==2.3.0
+onnxruntime==1.23.2
 --extra-index-url https://download.pytorch.org/whl/cpu
