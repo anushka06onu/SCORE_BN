@@ -5,7 +5,7 @@ WORKDIR /app
 # Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt && \
-    sed -i 's/def is_torch_available():/def is_torch_available(): return True\n    def old_is_torch_available():/' /usr/local/lib/python3.10/site-packages/transformers/utils/import_utils.py
+    python -c "import transformers.utils.import_utils as iu; p = iu.__file__; code = open(p).read(); open(p, 'w').write(code + '\n\n_torch_available = True\n\ndef is_torch_available(): return True\n')"
 
 # Copy the backend code and models
 COPY . /app
