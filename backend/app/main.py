@@ -58,6 +58,26 @@ classical_models = {}
 def load_models():
     global transformer_model, tokenizer, tfidf_vectorizer, classical_models, transformer_error
     
+    # Debug: Force error to inspect environment
+    import transformers
+    import sys
+    try:
+        transformers_torch_avail = transformers.utils.import_utils.is_torch_available()
+    except Exception as e:
+        transformers_torch_avail = f"Error: {e}"
+        
+    try:
+        import torch
+        torch_ver = torch.__version__
+        torch_path = torch.__file__
+    except Exception as e:
+        torch_ver = f"Error: {e}"
+        torch_path = "N/A"
+        
+    debug_msg = f"DEBUG_DUMP: is_torch_available={transformers_torch_avail} | torch_ver={torch_ver} | torch_path={torch_path} | sys.path={sys.path}"
+    transformer_error = debug_msg
+    print(debug_msg, flush=True)
+
     # 1. Load Transformer (FP32)
     try:
         print(f"Loading transformer model from {MODEL_DIR} onto CPU...", flush=True)
@@ -66,7 +86,7 @@ def load_models():
         transformer_model.eval()
         print("Transformer loaded successfully.", flush=True)
     except Exception as e:
-        transformer_error = str(e)
+        transformer_error = debug_msg + "\\n\\n" + str(e)
         import traceback
         transformer_error += "\\n" + traceback.format_exc()
         print(f"Error loading transformer: {e}", flush=True)
