@@ -51,13 +51,13 @@ const QueryForm = ({ onAnalyze, isLoading }) => {
               disabled={isLoading}
             >
               <option value="BanglaBERT">BanglaBERT — Best overall test performance (Macro-F1: 0.9347)</option>
-              <option value="SCORE-BN">SCORE-BN — Proposed robustness-oriented model</option>
+              <option value="SCORE-BN" disabled>SCORE-BN — checkpoint not deployed</option>
               <option value="Tuned Linear SVM">Tuned Linear SVM</option>
               <option value="Linear SVM">Linear SVM</option>
-              <option value="CNN">CNN (Deep Learning)</option>
-              <option value="BiGRU">BiGRU (Deep Learning)</option>
+              <option value="CNN" disabled>CNN — checkpoint not deployed</option>
+              <option value="BiGRU" disabled>BiGRU — checkpoint not deployed</option>
               <option value="Logistic Regression">Logistic Regression</option>
-              <option value="BiLSTM">BiLSTM (Deep Learning)</option>
+              <option value="BiLSTM" disabled>BiLSTM — checkpoint not deployed</option>
               <option value="XGBoost">XGBoost</option>
               <option value="Random Forest">Random Forest</option>
               <option value="Tuned XGBoost">Tuned XGBoost</option>
