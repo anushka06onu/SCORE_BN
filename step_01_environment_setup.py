@@ -1,11 +1,11 @@
-## 1. Environment setup — CPU
+"""## 1. Environment setup — CPU
 
 Run this once. A runtime restart is usually unnecessary.
 """
 
-!pip -q install -U pandas numpy scikit-learn seaborn matplotlib wordcloud openpyxl \
-  imbalanced-learn xgboost optuna shap lime rapidfuzz indic-transliteration \
-  transformers datasets accelerate evaluate sentencepiece captum streamlit pyngrok
+# Notebook environment command (run separately): pip -q install -U pandas numpy scikit-learn seaborn matplotlib wordcloud openpyxl \
+# Notebook environment command (run separately): imbalanced-learn xgboost optuna shap lime rapidfuzz indic-transliteration \
+# Notebook environment command (run separately): transformers datasets accelerate evaluate sentencepiece captum streamlit pyngrok
 
 import os, re, json, random, warnings, glob, zipfile, shutil, unicodedata
 from pathlib import Path
@@ -21,8 +21,9 @@ np.random.seed(SEED)
 warnings.filterwarnings("ignore")
 sns.set_theme(style="whitegrid")
 
-PROJECT_DIR = Path('/Users/fatehahossainanushka/SCORE_BN')
+PROJECT_DIR = Path(os.environ.get('SCORE_BN_PROJECT_DIR', str(Path.home() / 'SCORE_BN')))
 for folder in ['data/raw','data/processed','data/splits','models','results','figures','app']:
     (PROJECT_DIR/folder).mkdir(parents=True, exist_ok=True)
 print('Project folder:', PROJECT_DIR)
+
 

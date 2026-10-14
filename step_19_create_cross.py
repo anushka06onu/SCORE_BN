@@ -4,7 +4,7 @@ These are deterministic meaning-preserving transformations of real training quer
 """
 
 # Install the transliteration package if necessary
-!pip -q install indic-transliteration
+# Notebook environment command (run separately): pip -q install indic-transliteration
 
 import pandas as pd
 
@@ -206,4 +206,5 @@ paired_test.to_csv(
 
 print("\nPaired datasets saved to:")
 print(PAIRED_DATA_DIR)
+
 
