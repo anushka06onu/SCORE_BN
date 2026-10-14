@@ -88,7 +88,9 @@ class ExplainRequest(BaseModel):
     model: str = "BanglaBERT"
 
 def predict_probabilities(texts, model_name="BanglaBERT"):
-    if model_name in ["BanglaBERT", "SCORE-BN", "CNN", "BiGRU", "BiLSTM"]:
+    if model_name in {"SCORE-BN", "CNN", "BiGRU", "BiLSTM"}:
+        raise HTTPException(status_code=422, detail=f"{model_name} is not available for inference; its dedicated checkpoint is not deployed.")
+    if model_name == "BanglaBERT":
         if transformer_model is None or tokenizer is None:
             raise ValueError("Transformer model not loaded")
         inputs = tokenizer(texts, padding=True, truncation=True, max_length=128, return_tensors="pt")
@@ -143,6 +145,8 @@ def predict(request: PredictRequest):
             "processing_time_ms": processing_time_ms,
             "disclaimer": "Research demonstration only; not a medical diagnosis."
         }
+    except HTTPException:
+        raise
     except Exception as e:
         print("Prediction error:", e)
         raise HTTPException(status_code=500, detail=str(e))
@@ -173,6 +177,8 @@ def explain(request: ExplainRequest):
             "predicted_class": CLASS_NAMES[top_class_idx],
             "explanation": [{"word": word, "weight": float(weight)} for word, weight in explanation_list]
         }
+    except HTTPException:
+        raise
     except Exception as e:
         print("Explanation error:", e)
         raise HTTPException(status_code=500, detail=str(e))
