@@ -766,8 +766,8 @@ README_FILE = (
 # INSTALL AND CONFIGURE BANGLA FONTS IN GOOGLE COLAB
 # ============================================================
 
-!apt-get update -qq
-!apt-get install -y -qq fonts-noto-core fonts-noto-extra
+# Notebook environment command: apt-get update -qq
+# Notebook environment command: apt-get install -y -qq fonts-noto-core fonts-noto-extra
 
 import os
 import glob
@@ -2234,9 +2234,9 @@ print(
 # REPORT ASSET SETUP AND BANGLA FONT
 # ============================================================
 
-!pip -q install wordcloud openpyxl
-!apt-get update -qq
-!apt-get install -y -qq fonts-noto-core fonts-noto-extra
+# Notebook environment command: pip -q install wordcloud openpyxl
+# Notebook environment command: apt-get update -qq
+# Notebook environment command: apt-get install -y -qq fonts-noto-core fonts-noto-extra
 
 import os
 import re
@@ -5086,9 +5086,9 @@ print(
 # DEFINITIVE BANGLA FONT REPAIR
 # ============================================================
 
-!apt-get update -qq
-!apt-get install -y -qq fonts-noto-core fonts-noto-extra fontconfig
-!fc-cache -f -v > /dev/null
+# Notebook environment command: apt-get update -qq
+# Notebook environment command: apt-get install -y -qq fonts-noto-core fonts-noto-extra fontconfig
+# Notebook environment command: fc-cache -f -v > /dev/null
 
 import os
 import glob
@@ -5267,7 +5267,7 @@ plt.show()
 print("Font-test image saved to:")
 print(font_test_path)
 
-!pip -q install -U plotly kaleido
+# Notebook environment command: pip -q install -U plotly kaleido
 
 import json
 import numpy as np
@@ -5622,7 +5622,7 @@ for class_index, class_name in enumerate(
             orientation='h',
             marker_color=class_colors[
                 class_index
-#                 %
+                 %
                 len(class_colors)
             ],
             hovertemplate=(
@@ -5707,7 +5707,7 @@ except Exception as error:
 # BANGLA-SAFE REPORT ASSET SETUP
 # ============================================================
 
-!pip -q install -U plotly kaleido
+# Notebook environment command: pip -q install -U plotly kaleido
 
 import re
 import json
@@ -7399,8 +7399,8 @@ print(
 # CPU is sufficient
 # ============================================================
 
-!pip -q install -U regex plotly kaleido playwright shap lime
-!playwright install chromium
+# Notebook environment command: pip -q install -U regex plotly kaleido playwright shap lime
+# Notebook environment command: playwright install chromium
 
 import os
 import re
@@ -7439,6 +7439,7 @@ warnings.filterwarnings("ignore")
 # Mount Google Drive if it is not already mounted
 if not Path("/content/drive/MyDrive").exists():
 #     drive.mount("/content/drive")
+    pass  # Mount explicitly when running this notebook in Colab.
 
 SEED = 42
 
@@ -9901,7 +9902,7 @@ for stem in required_png_stems:
 
     png_path = (
         FIGURE_PNG_DIR /
-        f        f"{stem}.png"
+        f"{stem}.png"
     )
 
     svg_path = (
@@ -10126,4 +10127,5 @@ print(
     "\nOnly use assets from final_corrected_assets "
     "in your report."
 )
+
 

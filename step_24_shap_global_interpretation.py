@@ -7,7 +7,7 @@ This explains a linear SVM/logistic-style TF-IDF model. Limit samples to keep Co
 # SECTION 24: SHAP GLOBAL EXPLAINABILITY
 # ============================================================
 
-!pip -q install shap
+# Notebook environment command (run separately): pip -q install shap
 
 import gc
 import joblib
@@ -349,4 +349,5 @@ print(
     XAI_DIR /
     'logistic_regression_top_features.csv'
 )
+
 

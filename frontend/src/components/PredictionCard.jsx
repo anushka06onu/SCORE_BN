@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { AlertCircle, Clock, Cpu, ChevronDown, ChevronUp } from 'lucide-react';
 import ProbabilityChart from './ProbabilityChart';
 import styles from './PredictionCard.module.css';
+import { requestJson } from '../lib/request.mjs';
 
 const PredictionCard = ({ result }) => {
   const [showExplanation, setShowExplanation] = useState(false);
   const [explanation, setExplanation] = useState(null);
   const [loadingExplain, setLoadingExplain] = useState(false);
+  const [explanationError, setExplanationError] = useState('');
   
   if (!result) return null;
 
@@ -41,21 +43,18 @@ const PredictionCard = ({ result }) => {
 
     if (nextState && !explanation) {
       setLoadingExplain(true);
+      setExplanationError('');
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-        const response = await fetch(`${apiUrl}/api/explain`, {
+        const apiUrl = (import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000')).replace(/\/$/, '');
+        const data = await requestJson(`${apiUrl}/api/explain`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: queryText, model: model_used }),
         });
-        if (response.ok) {
-          const data = await response.json();
-          setExplanation(data.explanation);
-        }
+        setExplanation(data.explanation);
       } catch (error) {
         console.error('LIME explanation error:', error);
+        setExplanationError(error.message || 'Explanation unavailable.');
       } finally {
         setLoadingExplain(false);
       }
@@ -147,7 +146,7 @@ const PredictionCard = ({ result }) => {
               ) : explanation ? (
                 <div>
                   <div className={styles.limeDescription} style={{ marginBottom: '1.5rem', backgroundColor: 'rgba(59, 130, 246, 0.05)', padding: '1rem', borderRadius: '0.5rem', borderLeft: '3px solid var(--accent-primary)' }}>
-                    <p dangerouslySetInnerHTML={{ __html: generateExplanationText(explanation, predicted_class).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}></p>
+                    <p>{(generateExplanationText(explanation, predicted_class) || '').replace(/\*\*/g, '')}</p>
                   </div>
                   
                   <p style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
@@ -179,7 +178,7 @@ const PredictionCard = ({ result }) => {
                   </div>
                 </div>
               ) : (
-                <p>Explanation unavailable.</p>
+                <p role="alert">{explanationError || 'Explanation unavailable.'}</p>
               )}
             </div>
           )}

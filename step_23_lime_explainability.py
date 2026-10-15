@@ -1,11 +1,10 @@
-## 23. LIME explainability — CPU or T4
-"""
+"""23. LIME explainability — CPU or T4."""
 
 # ============================================================
 # SECTION 23: LIME EXPLAINABILITY
 # ============================================================
 
-!pip -q install lime
+# Notebook environment command (run separately): pip -q install lime
 
 import re
 import unicodedata
@@ -330,4 +329,5 @@ print(
     "Figure saved to:",
     LIME_FIGURE_PATH
 )
+
 

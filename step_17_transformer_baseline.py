@@ -612,7 +612,7 @@ for file_path in sorted(CHECKPOINT_DIR.rglob('*')):
     if file_path.is_file():
         print(file_path.relative_to(CHECKPOINT_DIR))
 
-!pip -q install -U transformers datasets accelerate evaluate sentencepiece
+# Notebook environment command (run separately): pip -q install -U transformers datasets accelerate evaluate sentencepiece
 
 import gc
 import json
@@ -1039,4 +1039,5 @@ with open(
 
 print("BanglaBERT saved to:")
 print(FINAL_MODEL_DIR)
+
 
